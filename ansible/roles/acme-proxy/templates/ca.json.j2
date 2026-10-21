@@ -47,12 +47,12 @@
   },
 {% if acme_proxy_tls_key_type | length > 0 %}
   "tlsKey": {
-    "type": "{{ acme_proxy_tls_key_type }}"
+    "type": {{ acme_proxy_tls_key_type | to_json }}
 {%- if acme_proxy_tls_key_size | string | length > 0 %},
     "size": {{ acme_proxy_tls_key_size | int }}
 {%- endif %}
 {%- if acme_proxy_tls_key_curve | length > 0 %},
-    "curve": "{{ acme_proxy_tls_key_curve }}"
+    "curve": {{ acme_proxy_tls_key_curve | to_json }}
 {%- endif %}
 
   },
