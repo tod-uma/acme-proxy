@@ -178,7 +178,8 @@ func (c *ExternalCAS) CreateCertificate(req *apiv1.CreateCertificateRequest) (*a
 	ctx, cancel := context.WithTimeout(c.ctx, c.cfg.RequestTimeout())
 	defer cancel()
 
-	slog.Info("processing certificate request", "domains", req.CSR.DNSNames)
+	slog.Info("processing certificate request", "domains", req.CSR.DNSNames,
+		"key", describeKey(req.CSR.PublicKey), "spki_sha256", spkiSHA256(req.CSR.PublicKey))
 
 	// Build certificate request
 	csrRequest := certificate.ObtainForCSRRequest{
