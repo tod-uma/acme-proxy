@@ -254,9 +254,10 @@ jobs:
         with:
           name: Release ${{ steps.version.outputs.VERSION }}
           generate_release_notes: true
+          # step-ca_linux_* also matches the .bundle files; listing them
+          # again uploads each twice and the parallel uploads race.
           files: |
             dist/step-ca_linux_*
-            dist/*.bundle
             dist/SHA256SUMS
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
