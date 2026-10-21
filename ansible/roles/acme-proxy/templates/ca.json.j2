@@ -43,6 +43,9 @@
   "tls": {
     "minVersion": {{ acme_proxy_tls_min_version }},
     "maxVersion": {{ acme_proxy_tls_max_version }},
+{% if acme_proxy_tls_cipher_suites | length > 0 %}
+    "cipherSuites": {{ acme_proxy_tls_cipher_suites | to_json }},
+{% endif %}
     "renegotiation": {{ acme_proxy_tls_renegotiation | lower }}
   },
 {% if acme_proxy_tls_key_type | length > 0 %}
