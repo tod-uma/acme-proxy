@@ -2,7 +2,7 @@ module github.com/esnet/acme-proxy
 
 go 1.25.0
 
-replace github.com/smallstep/certificates => github.com/tod-uma/certificates v0.30.2-patch.2.tlskey.1
+replace github.com/smallstep/certificates => github.com/tod-uma/certificates v0.30.2-patch.2.tlskey.2
 
 require (
 	github.com/go-acme/lego/v4 v4.33.0
