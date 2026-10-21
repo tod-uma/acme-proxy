@@ -45,5 +45,17 @@
     "maxVersion": {{ acme_proxy_tls_max_version }},
     "renegotiation": {{ acme_proxy_tls_renegotiation | lower }}
   },
+{% if acme_proxy_tls_key_type | length > 0 %}
+  "tlsKey": {
+    "type": "{{ acme_proxy_tls_key_type }}"
+{%- if acme_proxy_tls_key_size | string | length > 0 %},
+    "size": {{ acme_proxy_tls_key_size | int }}
+{%- endif %}
+{%- if acme_proxy_tls_key_curve | length > 0 %},
+    "curve": "{{ acme_proxy_tls_key_curve }}"
+{%- endif %}
+
+  },
+{% endif %}
   "commonName": "{{ acme_proxy_common_name }}"
 }

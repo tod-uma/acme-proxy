@@ -81,6 +81,9 @@ Fields under `authority.config` are specific to acme-proxy.
 | `authority.config.metrics.port` | No | Metrics port. Default: `9234`. |
 | `authority.config.metrics.datasource` | No | Prometheus metrics datastore. Default: `/opt/acme-proxy/db/metrics`. |
 | `commonName` | Yes | Common name for the proxy's own TLS certificate. Should match `dnsNames[0]`. |
+| `tlsKey.type` | No | Key type for the proxy's own TLS certificate: `EC`, `RSA` or `OKP`. Default: EC P-256. Set `RSA` when your upstream CA chooses the issuing chain by key type and only its RSA chain is trusted by your clients. |
+| `tlsKey.size` | No | RSA key size in bits (minimum 2048). Default: `2048`. RSA only. |
+| `tlsKey.curve` | No | `P-256`, `P-384` or `P-521` for EC; `Ed25519` for OKP. Defaults: `P-256` / `Ed25519`. |
 
 ### Upstream CA URLs
 
