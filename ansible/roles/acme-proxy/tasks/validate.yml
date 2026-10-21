@@ -19,3 +19,19 @@
       EAB credentials must be set together: both acme_proxy_eab_kid
       and acme_proxy_eab_hmac_key, or neither.
   when: acme_proxy_eab_kid | length > 0 or acme_proxy_eab_hmac_key | length > 0
+
+# The template renders the size through `int`, which turns a typo into 0 and
+# step-ca then silently uses its 2048-bit default.
+- name: Verify the TLS key size
+  ansible.builtin.assert:
+    that:
+      - acme_proxy_tls_key_type | upper == "RSA"
+      - acme_proxy_tls_key_size | string is match('^[0-9]+$')
+      - acme_proxy_tls_key_size | int >= 2048
+    fail_msg: >-
+      acme_proxy_tls_key_size must be a whole number of bits, at least 2048,
+      and is only valid with acme_proxy_tls_key_type RSA
+      (got {{ acme_proxy_tls_key_size }}).
+  when:
+    - acme_proxy_tls_key_type | length > 0
+    - acme_proxy_tls_key_size | string | length > 0
