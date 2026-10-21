@@ -352,8 +352,6 @@ github.com/envoyproxy/go-control-plane/envoy v1.37.0/go.mod h1:DReE9MMrmecPy+YvQ
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
 github.com/envoyproxy/protoc-gen-validate v1.3.3 h1:MVQghNeW+LZcmXe7SY1V36Z+WFMDjpqGAGacLe2T0ds=
 github.com/envoyproxy/protoc-gen-validate v1.3.3/go.mod h1:TsndJ/ngyIdQRhMcVVGDDHINPLWB7C82oDArY51KfB0=
-github.com/esnet/certificates v0.30.2-patch.2 h1:k4+zeuvqetGdYQHgEfeF6HdUDfNEAkT+BsGKdkx7DZk=
-github.com/esnet/certificates v0.30.2-patch.2/go.mod h1:oyaE/aEYUGDr+YiCZLAxxP22bOQqcSHTeDgp8Vv2rlY=
 github.com/exoscale/egoscale/v3 v3.1.33 h1:5Lk/pwZ+K0sjNu9obS0VYPfhZQffRkvvO0BpdPoir4o=
 github.com/exoscale/egoscale/v3 v3.1.33/go.mod h1:0iY8OxgHJCS5TKqDNhwOW95JBKCnBZl3YGU4Yt+NqkU=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
@@ -1116,6 +1114,8 @@ github.com/tjfoc/gmsm v1.3.2/go.mod h1:HaUcFuY0auTiaHB9MHFGCPx5IaLhTUd2atbCFBQXn
 github.com/tjfoc/gmsm v1.4.1 h1:aMe1GlZb+0bLjn+cKTPEvvn9oUEBlJitaZiiBwsbgho=
 github.com/tjfoc/gmsm v1.4.1/go.mod h1:j4INPkHWMrhJb38G+J6W4Tw0AbuN8Thu3PbdVYhVcTE=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5/go.mod h1:ncp9v5uamzpCO7NfCPTXjqaC+bZgJeR0sMTm6dMHP7U=
+github.com/tod-uma/certificates v0.30.2-patch.2.tlskey.1 h1:3/ck61j22cwUef+bSmXExTuU85GqpgoW+qb0ZnkrXr4=
+github.com/tod-uma/certificates v0.30.2-patch.2.tlskey.1/go.mod h1:oyaE/aEYUGDr+YiCZLAxxP22bOQqcSHTeDgp8Vv2rlY=
 github.com/transip/gotransip/v6 v6.26.1 h1:MeqIjkTBBsZwWAK6giZyMkqLmKMclVHEuTNmoBdx4MA=
 github.com/transip/gotransip/v6 v6.26.1/go.mod h1:x0/RWGRK/zob817O3tfO2xhFoP1vu8YOHORx6Jpk80s=
 github.com/tv42/httpunix v0.0.0-20150427012821-b75d8614f926/go.mod h1:9ESjWnEqriFuLhtthL60Sar/7RFoluCcXsuvEwTV5KM=
