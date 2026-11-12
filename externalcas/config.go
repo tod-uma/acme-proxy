@@ -34,6 +34,16 @@ type acmeProxyConfig struct {
 	// Certificate lifetime in days (optional)
 	CertLifetime int `json:"certlifetime,omitempty"`
 
+	// Upper bound, in seconds, on one certificate request to the upstream CA:
+	// account registration, authorization, finalization and download (optional).
+	// Zero means the default of 120 seconds.
+	RequestTimeoutSeconds int `json:"request_timeout,omitempty"`
+
+	// How long, in seconds, lego polls the upstream order for the issued
+	// certificate after finalization (optional). Zero means lego's default of
+	// 30 seconds. CAs that validate many SANs per order may need longer.
+	CertificateTimeoutSeconds int `json:"certificate_timeout,omitempty"`
+
 	// Lego provider connection variables for dns01 TXT challenge
 	Lego legoConfig `json:"dns01_txt"`
 
@@ -64,6 +74,16 @@ func (c *acmeProxyConfig) Validate() error {
 	if c.CertLifetime < 0 {
 		return errors.New("certlifetime cannot be negative")
 	}
+	if c.RequestTimeoutSeconds < 0 {
+		return errors.New("request_timeout cannot be negative")
+	}
+	if c.CertificateTimeoutSeconds < 0 {
+		return errors.New("certificate_timeout cannot be negative")
+	}
+	if c.CertificateTimeout() >= c.RequestTimeout() {
+		return fmt.Errorf("certificate_timeout (%s) must be less than request_timeout (%s)",
+			c.CertificateTimeout(), c.RequestTimeout())
+	}
 
 	// Consider Metrics enabled only when port & datasource both are defined
 	if c.Metrics.Port > 0 && c.Metrics.DataSource != "" {
@@ -81,9 +101,23 @@ func (c *acmeProxyConfig) HTTPTimeout() time.Duration {
 	return 90 * time.Second
 }
 
-// RequestTimeout returns the timeout for certificate request operations
+// RequestTimeout returns the timeout for one certificate request to the
+// upstream CA: request_timeout seconds when set, otherwise 2 minutes.
 func (c *acmeProxyConfig) RequestTimeout() time.Duration {
+	if c.RequestTimeoutSeconds > 0 {
+		return time.Duration(c.RequestTimeoutSeconds) * time.Second
+	}
 	return 2 * time.Minute
+}
+
+// CertificateTimeout returns how long lego polls the upstream order for the
+// issued certificate after finalization: certificate_timeout seconds when
+// set, otherwise lego's own default of 30 seconds.
+func (c *acmeProxyConfig) CertificateTimeout() time.Duration {
+	if c.CertificateTimeoutSeconds > 0 {
+		return time.Duration(c.CertificateTimeoutSeconds) * time.Second
+	}
+	return 30 * time.Second
 }
 
 // parseConfig is a helper function which reads ca.json file as rawjson and validates

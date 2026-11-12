@@ -73,6 +73,8 @@ Fields under `authority.config` are specific to acme-proxy.
 | `authority.config.ca_url` | Yes | ACME directory URL of your upstream certificate authority. |
 | `authority.config.account_email` | Yes | Email registered with the upstream CA. |
 | `authority.config.certlifetime` | No | Request certificate with a max lifetime period if supported by upstream CA |
+| `authority.config.request_timeout` | No | Seconds allowed for one certificate request to the upstream CA (registration, authorization, finalize, download). Default: `120`. |
+| `authority.config.certificate_timeout` | No | Seconds lego polls the upstream order for the issued certificate after finalize. Default: `30` (lego's default). Raise it for CAs that take longer to issue many-SAN certificates. Must be less than `request_timeout`. |
 | `authority.config.eab_kid` | Yes | External Account Binding Key ID, obtained from your CA's account portal. |
 | `authority.config.eab_hmac_key` | Yes | External Account Binding HMAC key, obtained from your CA's account portal. |
 | `authority.config.dns01_txt.provider` | Yes | [Lego Provider](https://go-acme.github.io/lego/dns/index.html) CLI Flag  |

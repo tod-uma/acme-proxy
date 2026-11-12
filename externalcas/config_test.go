@@ -173,6 +173,56 @@ func TestAcmeProxyConfig_Timeouts(t *testing.T) {
 	if requestTimeout != 2*time.Minute {
 		t.Errorf("RequestTimeout() = %v, want %v", requestTimeout, 2*time.Minute)
 	}
+
+	if got := config.CertificateTimeout(); got != 30*time.Second {
+		t.Errorf("CertificateTimeout() = %v, want %v", got, 30*time.Second)
+	}
+
+	config.RequestTimeoutSeconds = 270
+	config.CertificateTimeoutSeconds = 240
+	if got := config.RequestTimeout(); got != 270*time.Second {
+		t.Errorf("RequestTimeout() = %v, want %v", got, 270*time.Second)
+	}
+	if got := config.CertificateTimeout(); got != 240*time.Second {
+		t.Errorf("CertificateTimeout() = %v, want %v", got, 240*time.Second)
+	}
+}
+
+func TestAcmeProxyConfig_ValidateTimeouts(t *testing.T) {
+	base := func() acmeProxyConfig {
+		return acmeProxyConfig{CaURL: "https://acme.example.com", Kid: "k", HmacKey: "h"}
+	}
+	tests := []struct {
+		name    string
+		req     int
+		cert    int
+		wantErr string
+	}{
+		{name: "defaults", req: 0, cert: 0},
+		{name: "both set", req: 270, cert: 240},
+		{name: "cert only, below default request", req: 0, cert: 90},
+		{name: "negative request", req: -1, wantErr: "request_timeout cannot be negative"},
+		{name: "negative cert", cert: -1, wantErr: "certificate_timeout cannot be negative"},
+		{name: "cert equals request", req: 120, cert: 120, wantErr: "must be less than request_timeout"},
+		{name: "cert above default request", req: 0, cert: 180, wantErr: "must be less than request_timeout"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cfg := base()
+			cfg.RequestTimeoutSeconds = tt.req
+			cfg.CertificateTimeoutSeconds = tt.cert
+			err := cfg.Validate()
+			if tt.wantErr == "" {
+				if err != nil {
+					t.Fatalf("Validate() unexpected error: %v", err)
+				}
+				return
+			}
+			if err == nil || !strings.Contains(err.Error(), tt.wantErr) {
+				t.Fatalf("Validate() error = %v, want containing %q", err, tt.wantErr)
+			}
+		})
+	}
 }
 
 func TestParseConfig(t *testing.T) {
